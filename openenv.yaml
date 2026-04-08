@@ -1,0 +1,17 @@
+name: openenv-support-triage
+version: 0.1.0
+description: A real-world support ticket triage environment with deterministic graders.
+entrypoint: uvicorn app.main:app --host 0.0.0.0 --port 8000
+runtime:
+  python: "3.11"
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+tasks:
+  - name: account_access_classification
+    difficulty: easy
+  - name: billing_routing
+    difficulty: medium
+  - name: security_escalation
+    difficulty: hard
