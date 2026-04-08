@@ -81,7 +81,7 @@ python inference.py
 
 ```bash
 docker build -t openenv-support-triage .
-docker run --rm -p 8000:8000 openenv-support-triage
+docker run --rm -p 7860:7860 openenv-support-triage
 ```
 
 ## Validation checklist
