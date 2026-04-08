@@ -7,6 +7,17 @@ name = "openenv-support-triage"
 version = "0.1.0"
 description = "OpenEnv support triage submission scaffold"
 requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.8",
+  "uvicorn[standard]>=0.34.0",
+  "pydantic>=2.10.6",
+  "requests>=2.32.3",
+  "openai>=2.7.2",
+  "openenv-core>=0.2.0",
+]
+
+[project.scripts]
+server = "server.app:main"
 
 [tool.setuptools]
-packages = ["app"]
+packages = ["app", "server"]

@@ -9,6 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
+COPY server ./server
 COPY openenv.yaml ./openenv.yaml
 COPY inference.py ./inference.py
 COPY README.md ./README.md
