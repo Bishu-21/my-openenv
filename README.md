@@ -1,3 +1,12 @@
+# ---
+# title: OpenEnv Support Triage
+# emoji: 🤖
+# colorFrom: indigo
+# colorTo: blue
+# sdk: docker
+# pinned: false
+# ---
+
 # OpenEnv Support Triage
 
 A lightweight OpenEnv submission scaffold for a realistic customer support workflow. The agent triages incoming tickets, chooses the right queue and priority, and drafts a response or escalation note.
