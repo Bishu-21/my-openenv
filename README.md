@@ -1,11 +1,11 @@
-# ---
-# title: OpenEnv Support Triage
-# emoji: 🤖
-# colorFrom: indigo
-# colorTo: blue
-# sdk: docker
-# pinned: false
-# ---
+---
+title: OpenEnv Support Triage
+emoji: 🤖
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+---
 
 # OpenEnv Support Triage
 
