@@ -27,6 +27,8 @@ TASKS = [
     "security_escalation",
 ]
 
+_EPSILON = 1e-3
+
 VALID_ACTION_TYPES = {"classify", "route", "draft_reply", "escalate", "resolve"}
 VALID_PRIORITIES = {"low", "medium", "high", "urgent"}
 VALID_QUEUES = {"general_support", "billing", "security", "identity", "vip"}
@@ -45,10 +47,10 @@ def _emit_step(step: int, action: str, reward: float, done: bool, error: Optiona
     )
 
 
-def _emit_end(success: bool, steps: int, rewards: List[float]) -> None:
+def _emit_end(success: bool, steps: int, score: float, rewards: List[float]) -> None:
     rewards_text = ",".join(f"{reward:.2f}" for reward in rewards)
     print(
-        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_text}",
+        f"[END] success={str(success).lower()} steps={steps} score={score:.3f} rewards={rewards_text}",
         flush=True,
     )
 
@@ -222,6 +224,7 @@ def run_episode(task_name: str) -> None:
     success = False
     step_count = 0
     done = False
+    score = _EPSILON
 
     _emit_start(task_name)
     try:
@@ -245,11 +248,14 @@ def run_episode(task_name: str) -> None:
             _emit_step(step_count, json.dumps(action, separators=(",", ":")), reward, done, error)
             observation = step_payload.get("observation", observation)
             success = bool(step_payload.get("info", {}).get("success", success))
+        if rewards:
+            score = sum(rewards) / max(1, len(rewards))
+        score = min(max(score, _EPSILON), 1.0 - _EPSILON)
 
     except Exception:
         success = False
     finally:
-        _emit_end(success, step_count, rewards)
+        _emit_end(success, step_count, score, rewards)
 
 
 def main() -> None:
