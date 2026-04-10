@@ -12,14 +12,14 @@ from openai import OpenAI
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
 HF_TOKEN = os.getenv("HF_TOKEN")
-API_KEY = os.getenv("API_KEY") or HF_TOKEN or os.getenv("OPENAI_API_KEY")
+API_KEY = os.environ["API_KEY"]
 OPENENV_BASE_URL = os.getenv("OPENENV_BASE_URL", "http://127.0.0.1:8000")
 BENCHMARK = os.getenv("BENCHMARK", "openenv-support-triage")
 
 if API_KEY is None:
     raise ValueError("API_KEY environment variable is required")
 
-client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
+client = OpenAI(base_url=os.environ.get("API_BASE_URL", API_BASE_URL), api_key=API_KEY)
 
 TASKS = [
     "account_access_classification",
