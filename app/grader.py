@@ -4,6 +4,8 @@ from typing import Dict, Iterable, Tuple
 
 from .models import ScoringTemplate, SupportAction
 
+_EPSILON = 1e-3
+
 
 def _normalize(text: str | None) -> str:
     return (text or "").strip().lower()
@@ -65,5 +67,5 @@ def grade_action(task: ScoringTemplate, action: SupportAction) -> Tuple[float, D
     }
 
     score = sum(components[key] * weight for key, weight in weights.items())
-    score = max(0.0, min(1.0, score - penalty))
+    score = max(_EPSILON, min(1.0 - _EPSILON, score - penalty))
     return score, components
