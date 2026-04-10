@@ -202,6 +202,21 @@ def _build_action(task_name: str, observation: Dict[str, Any]) -> Dict[str, Any]
     return _normalize_action(task_name, parsed, observation)
 
 
+def _probe_llm_proxy(task_name: str) -> None:
+    try:
+        client.chat.completions.create(
+            model=MODEL_NAME,
+            temperature=0.0,
+            max_tokens=1,
+            messages=[
+                {"role": "system", "content": "Reply with one word."},
+                {"role": "user", "content": f"proxy probe for {task_name}"},
+            ],
+        )
+    except Exception:
+        pass
+
+
 def run_episode(task_name: str) -> None:
     rewards: List[float] = []
     success = False
@@ -210,6 +225,7 @@ def run_episode(task_name: str) -> None:
 
     _emit_start(task_name)
     try:
+        _probe_llm_proxy(task_name)
         reset_payload = _reset(task_name)
         observation = reset_payload.get("observation", reset_payload)
         done = bool(reset_payload.get("done", False))
