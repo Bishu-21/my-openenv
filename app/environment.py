@@ -18,6 +18,8 @@ from .models import (
 )
 from .tasks import TASKS, TASK_ORDER
 
+_EPSILON = 1e-3
+
 
 @dataclass
 class EpisodeRuntime:
@@ -105,7 +107,7 @@ class SupportTriageEnvironment:
             self._episode.last_action_error = "episode already completed"
             return StepResponse(
                 observation=self._make_observation(),
-                reward=SupportReward(total=0.0, components={"terminal": 0.0}),
+                reward=SupportReward(total=_EPSILON, components={"terminal": _EPSILON}),
                 done=True,
                 info={"success": self._episode.success, "message": "episode already completed"},
                 last_action_error=self._episode.last_action_error,
@@ -133,7 +135,7 @@ class SupportTriageEnvironment:
         elif self._episode.completed:
             reward_value -= 0.05
 
-        reward_value = max(0.0, min(1.0, reward_value))
+        reward_value = max(_EPSILON, min(1.0 - _EPSILON, reward_value))
         reward = SupportReward(
             total=reward_value,
             components={
