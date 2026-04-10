@@ -11,7 +11,8 @@ from openai import OpenAI
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
-API_KEY = os.getenv("API_KEY") or os.getenv("HF_TOKEN") or os.getenv("OPENAI_API_KEY")
+HF_TOKEN = os.getenv("HF_TOKEN")
+API_KEY = os.getenv("API_KEY") or HF_TOKEN or os.getenv("OPENAI_API_KEY")
 OPENENV_BASE_URL = os.getenv("OPENENV_BASE_URL", "http://127.0.0.1:8000")
 BENCHMARK = os.getenv("BENCHMARK", "openenv-support-triage")
 
